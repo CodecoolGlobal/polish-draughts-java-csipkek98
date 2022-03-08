@@ -70,7 +70,7 @@ public class Board {
         else if(distance.isSymmetric()){
             switch (distance.howManyCell()){
                 case 1:
-                    break;
+                    return isFieldEmpty(newField);
                 case 2:
                     break;
                 default:
