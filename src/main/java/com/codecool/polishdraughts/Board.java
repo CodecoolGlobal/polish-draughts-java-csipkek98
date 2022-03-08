@@ -25,6 +25,10 @@ public class Board {
         }
     }
 
+    public Pawn[][] getFields() {
+        return fields;
+    }
+
     public void printBoard() {
         String header = " ";
         for (int i = 1; i <=fields.length ; i++) {
