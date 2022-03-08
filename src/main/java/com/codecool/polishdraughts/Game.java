@@ -32,11 +32,11 @@ public class Game {
         }
         this.boardSize = boardSize;
         board = new Board(boardSize);
-        board.printBoard();
     }
 
 
     private void playRound(int player){
+        board.printBoard();
         System.out.printf("Player %s's round!\n",player);
         System.out.println("Please select a pawn:");
         String input = playerInput.nextLine();
@@ -44,7 +44,7 @@ public class Game {
             input = playerInput.nextLine();
         }
         int[] selectedPawnPosition = convertInputToCoordinate(input);
-        Coordinates coordinates = new Coordinates(selectedPawnPosition[0],selectedPawnPosition[1]);
+        TryToMakeMove(selectedPawnPosition);
 
     }
 
@@ -53,24 +53,22 @@ public class Game {
         // need check later, now endless
     }
 
-    private boolean checkSelectInput(int player, String playerInput){
-        char letter = Character.toLowerCase(playerInput.charAt(0));
-        int number;
-        try {
-            number = Integer.parseInt(playerInput.substring(1));
-        }catch (NumberFormatException e){
-            System.out.println("Need to end the input with a number!\n");
-            return false;
+    private void TryToMakeMove(int[] pawnPosition){
+        System.out.println("Where do you want to move this piece?");
+        String input = playerInput.nextLine();
+        while(!checkNewPosition(input, pawnPosition)){
+            System.out.println("Invalid position, choose another!");
+            input = playerInput.nextLine();
         }
-        if(Character.isDigit(letter) || letter-'a'>boardSize){
-            System.out.println("Need to start with a letter or out of bounds!\n");
-            return false;
-        }
-        if(0>number || number>boardSize){
-            System.out.println("Out of bounds!\n");
-            return false;
-        }
-        int[] Coord = convertInputToCoordinate(playerInput);
+        Pawn pawn = board.getFields()[pawnPosition[0]][pawnPosition[1]];
+        int[] movePosition = convertInputToCoordinate(input);
+        Coordinates coordinates = new Coordinates(movePosition[0],movePosition[1]);
+        board.movePawn(pawn, coordinates);
+    }
+
+    private boolean checkSelectInput(int player, String input){
+        if (checkMoveInput(input)) return false;
+        int[] Coord = convertInputToCoordinate(input);
         if(checkIfPlayerPawn(player, Coord)){
             return true;
         }else{
@@ -78,6 +76,35 @@ public class Game {
             return false;
         }
     }
+
+    private boolean checkMoveInput(String playerInput) {
+        char letter = Character.toLowerCase(playerInput.charAt(0));
+        int number;
+        try {
+            number = Integer.parseInt(playerInput.substring(1));
+        }catch (NumberFormatException e){
+            System.out.println("Need to end the input with a number!\n");
+            return true;
+        }
+        if(Character.isDigit(letter) || letter-'a'>boardSize){
+            System.out.println("Need to start with a letter or out of bounds!\n");
+            return true;
+        }
+        if(0>number || number>boardSize){
+            System.out.println("Out of bounds!\n");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkNewPosition(String playerInput, int[] pawnPosition){
+        if (checkMoveInput(playerInput)) return false;
+        Pawn pawn = board.getFields()[pawnPosition[0]][pawnPosition[1]];
+        int[] movePosition = convertInputToCoordinate(playerInput);
+        return board.checkMove(pawn, movePosition[0], movePosition[1]);
+    }
+
+
     private boolean checkIfPlayerPawn(int player, int[] playerCoord){
         try {
             board.getFields()[playerCoord[0]][playerCoord[1]].getColor();

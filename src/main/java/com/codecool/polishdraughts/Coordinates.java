@@ -25,16 +25,16 @@ public class Coordinates {
     }
 
     public boolean isSymmetric(){
-        return x == y;
+        return Math.abs(x) == Math.abs(y);
     }
 
     public int howManyCell(){
-        return Math.max(x, y);
+        return Math.abs(Math.max(x, y));
     }
 
     public Coordinates getMiddle(Coordinates coordinates){
-        int x = this.x + (this.x - coordinates.getX())/2;
-        int y = this.y + (this.y - coordinates.getY())/2;
+        int x = this.x + (coordinates.getX() - this.x)/2;
+        int y = this.y + (coordinates.getY() - this.y)/2;
         return new Coordinates(x, y);
     }
 }
