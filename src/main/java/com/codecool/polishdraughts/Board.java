@@ -94,4 +94,19 @@ public class Board {
     public boolean isFieldEmpty(Coordinates field){
         return fields[field.getX()][field.getY()] == null;
     }
+
+    public void removePawn(Coordinates field){
+        fields[field.getX()][field.getY()] = null;
+    }
+
+    public void movePawn(Pawn pawn, Coordinates field){
+        Coordinates original = pawn.getPosition();
+        fields[pawn.getPosition().getX()][pawn.getPosition().getY()] = null;
+        pawn.setPosition(field.getX(), field.getY());
+        fields[field.getX()][field.getY()] = pawn;
+        
+        if (original.getDifference(field).howManyCell() == 2){
+            removePawn(original.getMiddle(field));
+        }
+    }
 }
