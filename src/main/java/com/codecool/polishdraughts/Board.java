@@ -33,8 +33,6 @@ public class Board {
             }else{
                 header = header.concat(" "+i);
             }
-
-
         }
         System.out.println(header);
 
@@ -53,10 +51,36 @@ public class Board {
                     }else{
                         System.out.print("⛀");
                     }
-
                 }
             }
             System.out.print("\n");
         }
+    }
+
+    public boolean checkMove(Pawn pawn, int row, int col){
+        Coordinates newField = new Coordinates(row, col);
+        Coordinates distance = pawn.getPosition().getDifference(newField);
+
+        if(row >= boardSize || col >= boardSize || 0 > row || 0 > col){
+            return false;
+        }
+        else if(!isFieldEmpty(newField)){
+            return false;
+        }
+        else if(distance.isSymmetric()){
+            switch (distance.howManyCell()){
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFieldEmpty(Coordinates field){
+        return fields[field.getX()][field.getY()] == null;
     }
 }

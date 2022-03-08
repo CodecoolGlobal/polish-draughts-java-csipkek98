@@ -25,14 +25,5 @@ public class Pawn {
     public void setPosition(int row, int col){
         this.position = new Coordinates(row, col);
     }
-
-    public boolean checkMove(Pawn[][] fields, int row, int col){
-        if(fields[row][col] == null){
-            return true;
-//            need some adjustments for game rule checks
-        }else{
-            return false;
-        }
-    }
 }
 
