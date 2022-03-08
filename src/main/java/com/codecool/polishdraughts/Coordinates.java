@@ -31,4 +31,10 @@ public class Coordinates {
     public int howManyCell(){
         return Math.max(x, y);
     }
+
+    public Coordinates getMiddle(Coordinates coordinates){
+        int x = this.x + (this.x - coordinates.getX())/2;
+        int y = this.y + (this.y - coordinates.getY())/2;
+        return new Coordinates(x, y);
+    }
 }

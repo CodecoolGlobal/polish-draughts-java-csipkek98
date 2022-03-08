@@ -76,7 +76,14 @@ public class Board {
                 case 1:
                     return isFieldEmpty(newField);
                 case 2:
-                    break;
+                    Coordinates middleField = pawn.getPosition().getMiddle(newField);
+                    if(fields[middleField.getX()][middleField.getY()] == null){
+                        return false;
+                    }
+                    else {
+                        int middleColor = fields[middleField.getX()][middleField.getY()].getColor();
+                        return middleColor != pawn.getColor();
+                    }
                 default:
                     return false;
             }
