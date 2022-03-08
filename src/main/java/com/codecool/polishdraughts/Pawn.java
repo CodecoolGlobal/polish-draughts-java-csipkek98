@@ -10,8 +10,8 @@ public class Pawn {
         position = new Coordinates(row, col);
     }
 
-    public Color getColor() {
-        return color;
+    public int getColor() {
+        return color.getColor();
     }
 
     public Coordinates getPosition() {

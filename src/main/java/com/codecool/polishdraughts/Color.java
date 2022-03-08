@@ -6,4 +6,8 @@ public class Color {
     public Color(int color){
         this.color = color;
     }
+
+    public int getColor() {
+        return color;
+    }
 }

@@ -26,8 +26,37 @@ public class Board {
     }
 
     public void printBoard() {
+        String header = " ";
+        for (int i = 1; i <=fields.length ; i++) {
+            if(i<10){
+                header = header.concat("  "+i);
+            }else{
+                header = header.concat(" "+i);
+            }
+
+
+        }
+        System.out.println(header);
+
+        char rowIndex = 'A';
         for (Pawn[] row : fields) {
-            System.out.println(Arrays.toString(row));
+            System.out.print(rowIndex);
+            rowIndex++;
+            for (Pawn pawn : row){
+                System.out.print("  ");
+                if(pawn == null){
+                    System.out.print(".");
+                }
+                else {
+                    if (pawn.getColor() == 1){
+                        System.out.print("⛂");
+                    }else{
+                        System.out.print("⛀");
+                    }
+
+                }
+            }
+            System.out.print("\n");
         }
     }
 }
