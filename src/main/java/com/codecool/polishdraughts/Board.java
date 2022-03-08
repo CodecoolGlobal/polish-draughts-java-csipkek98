@@ -29,7 +29,7 @@ public class Board {
         return fields;
     }
 
-    public void printBoard() {
+    public void printBoard(Pawn[][] table) {
         String header = " ";
         for (int i = 1; i <=fields.length ; i++) {
             if(i<10){
@@ -43,7 +43,7 @@ public class Board {
         System.out.println(header);
 
         char rowIndex = 'A';
-        for (Pawn[] row : fields) {
+        for (Pawn[] row : table) {
             System.out.print(rowIndex);
             rowIndex++;
             for (Pawn pawn : row){

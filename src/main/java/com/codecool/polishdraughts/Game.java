@@ -38,7 +38,7 @@ public class Game {
         }
         Board board = new Board(boardSize);
         setBoard(board.getFields());
-        board.printBoard();
+        board.printBoard(Board);
     }
 
     private void playRound(int player){
@@ -49,8 +49,10 @@ public class Game {
             System.out.println("Wrong input, please select one from your pawns!");
             input = playerInput.nextLine();
         }
+
         int[] selectedPawnPosition = convertInputToCoordinate(input);
-        System.out.println(Arrays.toString(selectedPawnPosition));
+        Coordinates coordinates = new Coordinates(selectedPawnPosition[0],selectedPawnPosition[1]);
+//        checkIfPlayerPawn();
 
     }
 
@@ -76,6 +78,12 @@ public class Game {
         return true;
         // NEED MOVE VALIDATION HERE
 //        return !checkIfAvailable(letter - 'a', number - 1);
+    }
+    private boolean checkIfPlayerPawn(int[] coordinate){
+        if(Board[coordinate[0]][coordinate[1]] == null){
+            return true;
+        }
+        return false;
     }
 
     private int[] convertInputToCoordinate(String playerInput){
