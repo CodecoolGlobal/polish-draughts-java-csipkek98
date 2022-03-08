@@ -67,11 +67,11 @@ public class Game {
             System.out.println("Need to end the input with a number!\n");
             return false;
         }
-        if(Character.isDigit(letter) || (letter-'a')>Board.length){
+        if(Character.isDigit(letter) || (letter)>Board.length){
             System.out.println("Need to start with a letter or out of bounds!\n");
             return false;
         }
-        if(0>number-1 || number-1>Board.length){
+        if(0>number || number>Board.length){
             System.out.println("Out of bounds!\n");
             return false;
         }
