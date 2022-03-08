@@ -45,14 +45,11 @@ public class Game {
         System.out.printf("Player %s's round!\n",player);
         System.out.println("Please select a pawn:");
         String input = playerInput.nextLine();
-        while(!checkSelectInput(input)){
-            System.out.println("Wrong input, please select one from your pawns!");
+        while(!checkSelectInput(player, input)){
             input = playerInput.nextLine();
         }
-
         int[] selectedPawnPosition = convertInputToCoordinate(input);
         Coordinates coordinates = new Coordinates(selectedPawnPosition[0],selectedPawnPosition[1]);
-//        checkIfPlayerPawn();
 
     }
 
@@ -61,26 +58,38 @@ public class Game {
         // need check later, now endless
     }
 
-    private boolean checkSelectInput(String playerInput){
+    private boolean checkSelectInput(int player, String playerInput){
         char letter = Character.toLowerCase(playerInput.charAt(0));
         int number;
         try {
             number = Integer.parseInt(playerInput.substring(1));
         }catch (NumberFormatException e){
+            System.out.println("Need to end the input with a number!\n");
             return false;
         }
         if(Character.isDigit(letter) || (letter-'a')>Board.length){
+            System.out.println("Need to start with a letter or out of bounds!\n");
             return false;
         }
         if(0>number-1 || number-1>Board.length){
+            System.out.println("Out of bounds!\n");
             return false;
         }
-        return true;
-        // NEED MOVE VALIDATION HERE
-//        return !checkIfAvailable(letter - 'a', number - 1);
+        int[] Coord = convertInputToCoordinate(playerInput);
+        if(checkIfPlayerPawn(player, Coord)){
+            return true;
+        }else{
+            System.out.println("Please select a pawn from yours!");
+            return false;
+        }
     }
-    private boolean checkIfPlayerPawn(int[] coordinate){
-        if(Board[coordinate[0]][coordinate[1]] == null){
+    private boolean checkIfPlayerPawn(int player, int[] playerCoord){
+        try {
+            Board[playerCoord[0]][playerCoord[1]].getColor();
+        }catch (NullPointerException e){
+            return false;
+        }
+        if(Board[playerCoord[0]][playerCoord[1]].getColor() == player){
             return true;
         }
         return false;
