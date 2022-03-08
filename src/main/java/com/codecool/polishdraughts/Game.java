@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
-    Pawn[][] Board;
+    private Board board;
+    private int boardSize;
 
     private final Scanner playerInput = new Scanner(System.in);
 
@@ -19,13 +20,6 @@ public class Game {
         }
     }
 
-    public Pawn[][] getBoard() {
-        return Board;
-    }
-
-    public void setBoard(Pawn[][] board) {
-        Board = board;
-    }
 
     private void start(){
         System.out.println("Welcome to Polish Draughts!");
@@ -36,10 +30,11 @@ public class Game {
             System.out.println("Wrong input, please insert a number between 10 and 20!");
             boardSize = playerInput.nextInt();
         }
-        Board board = new Board(boardSize);
-        setBoard(board.getFields());
-        board.printBoard(Board);
+        this.boardSize = boardSize;
+        board = new Board(boardSize);
+        board.printBoard();
     }
+
 
     private void playRound(int player){
         System.out.printf("Player %s's round!\n",player);
@@ -67,11 +62,11 @@ public class Game {
             System.out.println("Need to end the input with a number!\n");
             return false;
         }
-        if(Character.isDigit(letter) || (letter-'a')>Board.length){
+        if(Character.isDigit(letter) || letter-'a'>boardSize){
             System.out.println("Need to start with a letter or out of bounds!\n");
             return false;
         }
-        if(0>number-1 || number-1>Board.length){
+        if(0>number || number>boardSize){
             System.out.println("Out of bounds!\n");
             return false;
         }
@@ -85,11 +80,11 @@ public class Game {
     }
     private boolean checkIfPlayerPawn(int player, int[] playerCoord){
         try {
-            Board[playerCoord[0]][playerCoord[1]].getColor();
+            board.getFields()[playerCoord[0]][playerCoord[1]].getColor();
         }catch (NullPointerException e){
             return false;
         }
-        if(Board[playerCoord[0]][playerCoord[1]].getColor() == player){
+        if(board.getFields()[playerCoord[0]][playerCoord[1]].getColor() == player){
             return true;
         }
         return false;
