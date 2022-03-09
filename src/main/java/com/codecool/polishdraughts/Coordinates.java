@@ -37,4 +37,18 @@ public class Coordinates {
         int y = this.y + (coordinates.getY() - this.y)/2;
         return new Coordinates(x, y);
     }
+
+    public boolean isUp(){
+        return x > 0;
+    }
+
+    public Coordinates[] getDiagNeighbours(int distance){
+        Coordinates[] neighbours = new Coordinates[4];
+        neighbours[0] = new Coordinates(x-distance, y-distance);
+        neighbours[1] = new Coordinates(x-distance, y+distance);
+        neighbours[2] = new Coordinates(x+distance, y+distance);
+        neighbours[3] = new Coordinates(x+distance, y-distance);
+
+        return neighbours;
+    }
 }

@@ -67,10 +67,13 @@ public class Board {
         Coordinates newField = new Coordinates(row, col);
         Coordinates distance = pawn.getPosition().getDifference(newField);
 
-        if(row >= boardSize || col >= boardSize || 0 > row || 0 > col){
+        if(!isInBoard(newField)){
             return false;
         }
         else if(!isFieldEmpty(newField)){
+            return false;
+        }
+        else if (!pawn.isCorrectDirection(distance)){
             return false;
         }
         else if(distance.isSymmetric()){
@@ -111,6 +114,12 @@ public class Board {
             removePawn(original.getMiddle(field));
         }
     }
+
+    public boolean isInBoard(Coordinates field){
+        return field.getX() >= boardSize || field.getY() >= boardSize || 0 > field.getX() || 0 > field.getY();
+    }
+
+
     public int getColorFromCoordinate(int x, int y){
         boolean isPawn = fields[x][y] != null;
         if(isPawn){

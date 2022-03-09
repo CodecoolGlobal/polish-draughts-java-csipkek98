@@ -30,5 +30,12 @@ public class Pawn {
     public void getCrown(){
         this.isCrowned = true;
     }
+
+    public boolean isCorrectDirection(Coordinates newPos){
+        if(color.getColor() == 1 && newPos.isUp()){
+            return true;
+        }
+        return color.getColor() == 2 && !newPos.isUp();
+    }
 }
 
