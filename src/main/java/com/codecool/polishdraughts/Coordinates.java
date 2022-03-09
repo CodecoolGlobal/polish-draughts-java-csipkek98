@@ -38,6 +38,10 @@ public class Coordinates {
         return new Coordinates(x, y);
     }
 
+    public Coordinates getNormal(){
+        return new Coordinates(x/Math.abs(x), y/Math.abs(y));
+    }
+
     public boolean isUp(){
         return x > 0;
     }
@@ -50,5 +54,15 @@ public class Coordinates {
         neighbours[3] = new Coordinates(x+distance, y-distance);
 
         return neighbours;
+    }
+
+    public Coordinates[] getInBetweens(Coordinates coordinates){
+        int length = getDifference(coordinates).howManyCell();
+        Coordinates direction = getDifference(coordinates).getNormal();
+        Coordinates[] between = new Coordinates[length];
+        for (int i = 1; i < length; i++) {
+            between[i-1] = new Coordinates(x + i*direction.x, y + i*direction.y);
+        }
+        return between;
     }
 }
