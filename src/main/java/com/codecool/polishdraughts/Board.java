@@ -35,9 +35,9 @@ public class Board {
             fields[6][6] = new Pawn(1,6,6);
             fields[5][5] = new Pawn(2,5,5);
         }else if(testNumber == 2){
-            fields[1][3] = new Pawn(1,1,3);
-            fields[2][2] = new Pawn(2,2,2);
-            fields[1][1] = new Pawn(2,1,1);
+            fields[1][6] = new Pawn(1,1,6);
+            fields[2][7] = new Pawn(2,2,7);
+            fields[1][8] = new Pawn(2,1,8);
         }else if(testNumber == 3){
             fields[1][8] = new Pawn(1,1,8);
             fields[3][6] = new Pawn(1,3,6);
