@@ -36,7 +36,7 @@ public class Board {
         }else if(testNumber == 2){
             fields[1][3] = new Pawn(1,1,3);
             fields[2][3] = new Pawn(2,2,3);
-            fields[1][1] = new Pawn(2,1,3);
+            fields[1][1] = new Pawn(2,1,1);
         }
     }
 
@@ -110,7 +110,9 @@ public class Board {
         if(pawn.getCrown()) {
             Coordinates[] betweenFields = pawn.getPosition().getInBetweens(field);
             for (Coordinates middleField : betweenFields) {
-                fields[middleField.getX()][middleField.getY()] = null;
+                if (middleField != null){
+                    removePawn(middleField);
+                }
             }
         }
         else {
@@ -207,10 +209,13 @@ public class Board {
 
     public boolean checkKingMove(Pawn pawn, Coordinates newField){
         Coordinates[] betweenFields = pawn.getPosition().getInBetweens(newField);
-        int pawns = 0;
-        for (Coordinates field : betweenFields){
-            if(!isFieldEmpty(field)){
-                pawns++;
+        int pawns = 0;if (betweenFields != null) {
+            for (Coordinates field : betweenFields) {
+                if (field != null) {
+                    if (!isFieldEmpty(field)) {
+                        pawns++;
+                    }
+                }
             }
         }
         return pawns <= 1;

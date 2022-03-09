@@ -18,8 +18,8 @@ public class Coordinates {
     }
 
     public Coordinates getDifference(Coordinates coordinates){
-        int x = this.x - coordinates.x;
-        int y = this.y - coordinates.y;
+        int x = coordinates.x - this.x;
+        int y = coordinates.y - this.y;
         Coordinates diff = new Coordinates(x, y);
         return diff;
     }
@@ -43,7 +43,7 @@ public class Coordinates {
     }
 
     public boolean isUp(){
-        return x > 0;
+        return x < 0;
     }
 
     public Coordinates[] getDiagNeighbours(int distance){
