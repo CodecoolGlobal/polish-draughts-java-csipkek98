@@ -83,7 +83,7 @@ public class Game {
     private void TryToMakeMove(Pawn selectedPawn){
         System.out.println("Where do you want to move this piece?");
         String input = playerInput.nextLine();
-        while(!checkIfQuit(input) || !checkNewPosition(input, selectedPawn)){
+        while(!checkNewPosition(input, selectedPawn)){
             System.out.println("Invalid position, choose another!");
             input = playerInput.nextLine();
         }

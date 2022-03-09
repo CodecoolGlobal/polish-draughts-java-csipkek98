@@ -70,9 +70,9 @@ public class Board {
                     }else if(pawn.getColor() == 2 && !pawn.getCrown()){
                         System.out.print("⛀");
                     }else if(pawn.getColor() == 1 && pawn.getCrown()){
-                        System.out.println("⛃");
+                        System.out.print("⛃");
                     }else if(pawn.getColor() == 2 && pawn.getCrown()){
-                        System.out.println("⛁");
+                        System.out.print("⛁");
                     }
                 }
             }
