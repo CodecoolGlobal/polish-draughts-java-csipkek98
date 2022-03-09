@@ -27,6 +27,19 @@ public class Board {
         }
     }
 
+    public Board(int boardSize, int testNumber){
+        this.boardSize = boardSize;
+        fields = new Pawn[boardSize][boardSize];
+        if(testNumber == 1){
+            fields[6][6] = new Pawn(1,6,6);
+            fields[5][5] = new Pawn(2,5,5);
+        }else if(testNumber == 2){
+            fields[1][3] = new Pawn(1,1,3);
+            fields[2][3] = new Pawn(2,2,3);
+            fields[1][1] = new Pawn(2,1,3);
+        }
+    }
+
     public Pawn[][] getFields() {
         return fields;
     }

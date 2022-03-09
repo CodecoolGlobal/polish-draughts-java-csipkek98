@@ -1,5 +1,6 @@
 package com.codecool.polishdraughts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -30,11 +31,24 @@ public class Game {
         int boardSize = playerInput.nextInt();
         playerInput.nextLine();
         while (boardSize<10 || boardSize>20){
+            if(boardSize == 420 || boardSize == 69){
+                break;
+            }
             System.out.println("Wrong input, please insert a number between 10 and 20!");
             boardSize = playerInput.nextInt();
         }
-        this.boardSize = boardSize;
-        board = new Board(boardSize);
+        if(boardSize<=20){
+            this.boardSize = boardSize;
+            board = new Board(boardSize);
+        }else{
+            System.out.println("Welcome to the secret menu kid, you cracked the code!");
+            System.out.println("Which demo field would you like to choose?");
+            System.out.println("1. Simple jump over enemy\n2. Get the crown!");
+            int menuChoice = playerInput.nextInt();
+            playerInput.nextLine();
+            demoFieldInit(menuChoice);
+        }
+
     }
 
 
@@ -47,7 +61,6 @@ public class Game {
             input = playerInput.nextLine();
         }
         int[] selectedPawnPosition = convertInputToCoordinate(input);
-        System.out.println(Arrays.toString(selectedPawnPosition));
         Pawn pawn = board.getFields()[selectedPawnPosition[0]][selectedPawnPosition[1]];
         TryToMakeMove(pawn);
     }
@@ -134,5 +147,11 @@ public class Game {
         int letter = Character.toLowerCase(playerInput.charAt(0))-'a';
         int number = Integer.parseInt(playerInput.substring(1))-1;
         return new int[]{letter, number};
+    }
+
+    private void demoFieldInit(int choice){
+        int testBoardSize = 10;
+        this.boardSize = testBoardSize;
+        this.board = new Board(testBoardSize, choice);
     }
 }
