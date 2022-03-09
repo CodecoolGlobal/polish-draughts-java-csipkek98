@@ -224,4 +224,18 @@ public class Board {
         }
         return pawns <= 1;
     }
+
+    public int numberOfKings(int player){
+        int kings = 0;
+        for (Pawn[] row: fields) {
+            for (Pawn pawn: row) {
+                if (pawn != null){
+                    if(pawn.getCrown() && pawn.getColor() == player){
+                        kings++;
+                    }
+                }
+            }
+        }
+        return kings;
+    }
 }
