@@ -83,7 +83,13 @@ public class Game {
         if (checkMoveInput(input)) return false;
         int[] Coord = convertInputToCoordinate(input);
         if(checkIfPlayerPawn(player, Coord)){
-            return true;
+            Pawn pawn = board.getFields()[Coord[0]][Coord[1]];
+            if(board.canMove(pawn)){
+                return true;
+            }else{
+                System.out.println("You can't move with that pawn!");
+                return false;
+            }
         }else{
             System.out.println("Please select a pawn from yours!");
             return false;
