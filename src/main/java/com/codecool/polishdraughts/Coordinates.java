@@ -39,6 +39,16 @@ public class Coordinates {
     }
 
     public boolean isUp(){
-        return y > 0;
+        return x > 0;
+    }
+
+    public Coordinates[] getDiagNeighbours(int distance){
+        Coordinates[] neighbours = new Coordinates[4];
+        neighbours[0] = new Coordinates(x-distance, y-distance);
+        neighbours[1] = new Coordinates(x-distance, y+distance);
+        neighbours[2] = new Coordinates(x+distance, y+distance);
+        neighbours[3] = new Coordinates(x+distance, y-distance);
+
+        return neighbours;
     }
 }

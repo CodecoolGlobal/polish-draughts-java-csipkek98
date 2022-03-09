@@ -65,7 +65,7 @@ public class Board {
         Coordinates newField = new Coordinates(row, col);
         Coordinates distance = pawn.getPosition().getDifference(newField);
 
-        if(row >= boardSize || col >= boardSize || 0 > row || 0 > col){
+        if(!isInBoard(newField)){
             return false;
         }
         else if(!isFieldEmpty(newField)){
@@ -111,5 +111,9 @@ public class Board {
         if (original.getDifference(field).howManyCell() == 2){
             removePawn(original.getMiddle(field));
         }
+    }
+
+    public boolean isInBoard(Coordinates field){
+        return field.getX() >= boardSize || field.getY() >= boardSize || 0 > field.getX() || 0 > field.getY();
     }
 }
