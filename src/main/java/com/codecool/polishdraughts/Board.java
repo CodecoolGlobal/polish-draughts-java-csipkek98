@@ -113,6 +113,8 @@ public class Board {
         if (original.getDifference(field).howManyCell() == 2){
             removePawn(original.getMiddle(field));
         }
+
+        crownPawn(pawn, field);
     }
 
     public boolean isInBoard(Coordinates field){
@@ -146,6 +148,18 @@ public class Board {
         return false;
     }
 
+    public boolean canMove(int[] coords){
+        Pawn pawn = fields[coords[0]][coords[1]];
+        Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(1);
+        for(Coordinates field: neighbours){
+            if (isInBoard(field)) {
+                if (isFieldEmpty(field)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public int getColorFromCoordinate(int x, int y){
         boolean isPawn = fields[x][y] != null;
@@ -153,6 +167,14 @@ public class Board {
             return fields[x][y].getColor();
         }else{
             return 0;
+        }
+    }
+
+    public void crownPawn(Pawn pawn, Coordinates field){
+        if(field.getX() == 0 || field.getX() == boardSize-1){
+            if(!pawn.getCrown()){
+                pawn.setCrowned(true);
+            }
         }
     }
 }
