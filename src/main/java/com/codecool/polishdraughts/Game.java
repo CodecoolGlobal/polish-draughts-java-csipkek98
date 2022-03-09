@@ -62,7 +62,7 @@ public class Game {
             }
         }
         return false;
-        // need to check for King vs King and no more step scenarios
+        // need to check for King vs King and no more step scenario
     }
 
 
