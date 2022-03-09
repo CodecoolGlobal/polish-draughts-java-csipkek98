@@ -2,6 +2,8 @@ package com.codecool.polishdraughts;
 
 import java.util.Arrays;
 
+import static java.util.Objects.isNull;
+
 public class Board {
     private int boardSize;
     private Pawn[][] fields;
@@ -107,6 +109,14 @@ public class Board {
         
         if (original.getDifference(field).howManyCell() == 2){
             removePawn(original.getMiddle(field));
+        }
+    }
+    public int getColorFromCoordinate(int x, int y){
+        boolean isPawn = fields[x][y] != null;
+        if(isPawn){
+            return fields[x][y].getColor();
+        }else{
+            return 0;
         }
     }
 }

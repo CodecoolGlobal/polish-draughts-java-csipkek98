@@ -9,12 +9,15 @@ public class Game {
 
     private final Scanner playerInput = new Scanner(System.in);
 
+
     public static void main(String[] args) {
         int round = 1;
+        int enemyPlayer = 2;
         Game game = new Game();
         game.start();
-        while(!game.checkForWinner()){
+        while(game.checkForWinner(enemyPlayer)){
             int playerNumber = round % 2 == 1 ? 1 : 2;
+            enemyPlayer = playerNumber == 1 ? 2 : 1;
             game.playRound(playerNumber);
             round++;
         }
@@ -44,27 +47,37 @@ public class Game {
             input = playerInput.nextLine();
         }
         int[] selectedPawnPosition = convertInputToCoordinate(input);
-        TryToMakeMove(selectedPawnPosition);
-
+        System.out.println(Arrays.toString(selectedPawnPosition));
+        Pawn pawn = board.getFields()[selectedPawnPosition[0]][selectedPawnPosition[1]];
+        TryToMakeMove(pawn);
     }
 
-    private boolean checkForWinner(){
+
+    private boolean checkForWinner(int enemyPlayer){
+        for (int row = 0; row < boardSize; row++) {
+            for(int col = 0; col < boardSize; col++){
+                if(board.getColorFromCoordinate(row, col) == enemyPlayer) {
+                    return true;
+                }
+            }
+        }
         return false;
-        // need check later, now endless
+        // need to check for King vs King and no more step scenarios
     }
 
-    private void TryToMakeMove(int[] pawnPosition){
+
+    private void TryToMakeMove(Pawn selectedPawn){
         System.out.println("Where do you want to move this piece?");
         String input = playerInput.nextLine();
-        while(!checkNewPosition(input, pawnPosition)){
+        while(!checkNewPosition(input, selectedPawn)){
             System.out.println("Invalid position, choose another!");
             input = playerInput.nextLine();
         }
-        Pawn pawn = board.getFields()[pawnPosition[0]][pawnPosition[1]];
         int[] movePosition = convertInputToCoordinate(input);
         Coordinates coordinates = new Coordinates(movePosition[0],movePosition[1]);
-        board.movePawn(pawn, coordinates);
+        board.movePawn(selectedPawn, coordinates);
     }
+
 
     private boolean checkSelectInput(int player, String input){
         if (checkMoveInput(input)) return false;
@@ -76,6 +89,7 @@ public class Game {
             return false;
         }
     }
+
 
     private boolean checkMoveInput(String playerInput) {
         char letter = Character.toLowerCase(playerInput.charAt(0));
@@ -97,25 +111,18 @@ public class Game {
         return false;
     }
 
-    private boolean checkNewPosition(String playerInput, int[] pawnPosition){
+
+    private boolean checkNewPosition(String playerInput, Pawn pawn){
         if (checkMoveInput(playerInput)) return false;
-        Pawn pawn = board.getFields()[pawnPosition[0]][pawnPosition[1]];
         int[] movePosition = convertInputToCoordinate(playerInput);
         return board.checkMove(pawn, movePosition[0], movePosition[1]);
     }
 
 
     private boolean checkIfPlayerPawn(int player, int[] playerCoord){
-        try {
-            board.getFields()[playerCoord[0]][playerCoord[1]].getColor();
-        }catch (NullPointerException e){
-            return false;
-        }
-        if(board.getFields()[playerCoord[0]][playerCoord[1]].getColor() == player){
-            return true;
-        }
-        return false;
+        return board.getColorFromCoordinate(playerCoord[0], playerCoord[1]) == player;
     }
+
 
     private int[] convertInputToCoordinate(String playerInput){
         int letter = Character.toLowerCase(playerInput.charAt(0))-'a';

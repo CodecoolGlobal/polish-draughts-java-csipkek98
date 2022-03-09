@@ -4,6 +4,7 @@ package com.codecool.polishdraughts;
 public class Pawn {
     private Color color;
     private Coordinates position;
+    boolean isCrowned = false;
 
     public Pawn(int player, int row, int col){
         color = new Color(player);
@@ -24,6 +25,10 @@ public class Pawn {
 
     public void setPosition(int row, int col){
         this.position = new Coordinates(row, col);
+    }
+
+    public void getCrown(){
+        this.isCrowned = true;
     }
 }
 
