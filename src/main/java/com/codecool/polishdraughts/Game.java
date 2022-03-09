@@ -83,13 +83,39 @@ public class Game {
     private void TryToMakeMove(Pawn selectedPawn){
         System.out.println("Where do you want to move this piece?");
         String input = playerInput.nextLine();
-        while(!checkNewPosition(input, selectedPawn)){
+        while(!checkNewPosition(input, selectedPawn, false)){
             System.out.println("Invalid position, choose another!");
             input = playerInput.nextLine();
         }
         int[] movePosition = convertInputToCoordinate(input);
         Coordinates coordinates = new Coordinates(movePosition[0],movePosition[1]);
+        if (board.isMoveTake(selectedPawn, coordinates)) {
+            board.movePawn(selectedPawn, coordinates);
+            if(board.canTakeEnemy(board.getPawnByCoords(coordinates))){
+                board.printBoard();
+                TryToTakePiece(board.getPawnByCoords(coordinates));
+            }
+        }
+        else {
+            board.movePawn(selectedPawn, coordinates);
+        }
+    }
+
+    private void TryToTakePiece(Pawn selectedPawn){
+        System.out.println("You can still take pieces!");
+        Coordinates coordinates;
+        String input = playerInput.nextLine();
+        while (!checkNewPosition(input, selectedPawn, true)) {
+            System.out.println("Invalid position, choose another!");
+            input = playerInput.nextLine();
+        }
+        int[] movePosition = convertInputToCoordinate(input);
+        coordinates = new Coordinates(movePosition[0], movePosition[1]);
         board.movePawn(selectedPawn, coordinates);
+        if(board.canTakeEnemy(board.getPawnByCoords(coordinates))){
+            board.printBoard();
+            TryToTakePiece(board.getPawnByCoords(coordinates));
+        }
     }
 
 
@@ -133,11 +159,14 @@ public class Game {
     }
 
 
-    private boolean checkNewPosition(String playerInput, Pawn pawn){
+    private boolean checkNewPosition(String playerInput, Pawn pawn, boolean onlyTake){
         if (checkIfQuit(playerInput)) System.exit(0);
         if (checkMoveInput(playerInput)) return false;
         int[] movePosition = convertInputToCoordinate(playerInput);
-        return board.checkMove(pawn, movePosition[0], movePosition[1]);
+        if(onlyTake){
+            return board.checkMove(pawn, movePosition[0], movePosition[1]) && board.isMoveTake(pawn, new Coordinates(movePosition[0], movePosition[1]));
+        }
+        else return board.checkMove(pawn, movePosition[0], movePosition[1]);
     }
 
 

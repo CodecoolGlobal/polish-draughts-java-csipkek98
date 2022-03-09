@@ -31,18 +31,44 @@ public class Board {
     public Board(int boardSize, int testNumber){
         this.boardSize = boardSize;
         fields = new Pawn[boardSize][boardSize];
-        if(testNumber == 1){
-            fields[6][6] = new Pawn(1,6,6);
-            fields[5][5] = new Pawn(2,5,5);
-        }else if(testNumber == 2){
-            fields[1][3] = new Pawn(1,1,3);
-            fields[2][4] = new Pawn(2,2,2);
-            fields[1][1] = new Pawn(2,1,1);
+        switch (testNumber){
+            case 1:
+                fields[6][6] = new Pawn(1,6,6);
+                fields[5][5] = new Pawn(2,5,5);
+                break;
+            case 2:
+                fields[1][3] = new Pawn(1,1,3);
+                fields[2][4] = new Pawn(2,2,4);
+                fields[1][1] = new Pawn(2,1,1);
+                break;
+            case 3:
+                fields[2][1] = new Pawn(1,2,1, true);
+                fields[1][2] = new Pawn(2,1,2);
+                fields[1][4] = new Pawn(2,1,4);
+                fields[3][4] = new Pawn(2,3,4);
+                fields[7][8] = new Pawn(2,7,8);
+                break;
+        }
+    }
+
+    public Board(Board board){
+        boardSize = board.boardSize;
+        fields = new Pawn[boardSize][boardSize];
+        for (int i = 0; i < board.boardSize; i++) {
+            for (int j = 0; j < board.boardSize; j++) {
+                if(board.fields[i][j] != null) {
+                    fields[i][j] = new Pawn(board.fields[i][j]);
+                }
+            }
         }
     }
 
     public Pawn[][] getFields() {
         return fields;
+    }
+
+    public Pawn getPawnByCoords(Coordinates field){
+        return fields[field.getX()][field.getY()];
     }
 
     public void printBoard() {
@@ -227,12 +253,12 @@ public class Board {
     }
 
     public int countKings(int player){
-        ArrayList<Pawn> kings = countPawns();
+        ArrayList<Pawn> kings = selectPawns();
         kings.removeIf(pawn -> !pawn.getCrown() || pawn.getColor() != player);
         return kings.size();
     }
 
-    public ArrayList<Pawn> countPawns(){
+    public ArrayList<Pawn> selectPawns(){
         ArrayList<Pawn> pawns = new ArrayList<Pawn>();
         for (Pawn[] row: fields) {
             for (Pawn pawn: row) {
@@ -244,9 +270,22 @@ public class Board {
         return pawns;
     }
 
+    public int countPawns(){
+        return selectPawns().size();
+    }
+
     public ArrayList<Pawn> selectEnemyPawns(int player){
-        ArrayList<Pawn> pawns = countPawns();
+        ArrayList<Pawn> pawns = selectPawns();
         pawns.removeIf(pawn -> pawn.getCrown() || pawn.getColor() != player);
         return pawns;
+    }
+
+    public boolean isMoveTake(Pawn pawn, Coordinates newField){
+        Board tempBoard = new Board(this);
+        int oldPawnNumber = tempBoard.countPawns();
+
+        tempBoard.movePawn(tempBoard.getPawnByCoords(pawn.getPosition()), newField);
+        int newPawnNumber = tempBoard.countPawns();
+        return newPawnNumber < oldPawnNumber;
     }
 }

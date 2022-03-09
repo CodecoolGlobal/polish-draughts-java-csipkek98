@@ -58,11 +58,14 @@ public class Coordinates {
 
     public Coordinates[] getInBetweens(Coordinates coordinates){
         int length = getDifference(coordinates).howManyCell();
-        Coordinates direction = getDifference(coordinates).getNormal();
-        Coordinates[] between = new Coordinates[length];
-        for (int i = 1; i < length; i++) {
-            between[i-1] = new Coordinates(x + i*direction.x, y + i*direction.y);
+        if(length != 0) {
+            Coordinates direction = getDifference(coordinates).getNormal();
+            Coordinates[] between = new Coordinates[length];
+            for (int i = 1; i < length; i++) {
+                between[i - 1] = new Coordinates(x + i * direction.x, y + i * direction.y);
+            }
+            return between;
         }
-        return between;
+        return new Coordinates[0];
     }
 }

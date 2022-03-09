@@ -11,6 +11,23 @@ public class Pawn {
         position = new Coordinates(row, col);
     }
 
+    public Pawn(int player, int row, int col, boolean isCrowned){
+        color = new Color(player);
+        position = new Coordinates(row, col);
+        this.isCrowned = isCrowned;
+    }
+
+    public Pawn(int player, Coordinates position){
+        color = new Color(player);
+        this.position = position;
+    }
+
+    public Pawn(Pawn pawn){
+        color = pawn.color;
+        position = pawn.position;
+        isCrowned = pawn.isCrowned;
+    }
+
     public int getColor() {
         return color.getColor();
     }
@@ -43,7 +60,7 @@ public class Pawn {
     }
 
     public boolean isEnemy(Pawn pawn){
-        return getColor() != pawn.getColor();
+        return pawn != null && getColor() != pawn.getColor();
     }
 }
 
