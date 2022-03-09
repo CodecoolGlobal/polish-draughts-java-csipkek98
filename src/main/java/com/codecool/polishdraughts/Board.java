@@ -116,7 +116,34 @@ public class Board {
     }
 
     public boolean isInBoard(Coordinates field){
-        return field.getX() >= boardSize || field.getY() >= boardSize || 0 > field.getX() || 0 > field.getY();
+        return field.getX() < boardSize && field.getY() < boardSize && 0 < field.getX() && 0 < field.getY();
+    }
+
+    public boolean canTakeEnemy(Pawn pawn){
+        Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(2);
+        for(Coordinates field: neighbours){
+            if(isInBoard(field)) {
+                if (isFieldEmpty(field)) {
+                    Coordinates middle = pawn.getPosition().getMiddle(field);
+                    if (pawn.isEnemy(fields[middle.getX()][middle.getY()])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean canMove(Pawn pawn){
+        Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(1);
+        for(Coordinates field: neighbours){
+            if (isInBoard(field)) {
+                if (isFieldEmpty(field)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
