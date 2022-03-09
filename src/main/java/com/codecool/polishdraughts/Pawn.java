@@ -25,5 +25,12 @@ public class Pawn {
     public void setPosition(int row, int col){
         this.position = new Coordinates(row, col);
     }
+
+    public boolean isCorrectDirection(Coordinates newPos){
+        if(color.getColor() == 1 && newPos.isUp()){
+            return true;
+        }
+        return color.getColor() == 2 && !newPos.isUp();
+    }
 }
 

@@ -37,4 +37,8 @@ public class Coordinates {
         int y = this.y + (coordinates.getY() - this.y)/2;
         return new Coordinates(x, y);
     }
+
+    public boolean isUp(){
+        return y > 0;
+    }
 }

@@ -71,6 +71,9 @@ public class Board {
         else if(!isFieldEmpty(newField)){
             return false;
         }
+        else if (!pawn.isCorrectDirection(distance)){
+            return false;
+        }
         else if(distance.isSymmetric()){
             switch (distance.howManyCell()){
                 case 1:
