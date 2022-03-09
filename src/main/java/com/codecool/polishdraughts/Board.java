@@ -73,25 +73,11 @@ public class Board {
         else if(!isFieldEmpty(newField)){
             return false;
         }
-        else if (!pawn.isCorrectDirection(distance)){
-            return false;
-        }
         else if(distance.isSymmetric()){
-            switch (distance.howManyCell()){
-                case 1:
-                    return isFieldEmpty(newField);
-                case 2:
-                    Coordinates middleField = pawn.getPosition().getMiddle(newField);
-                    if(fields[middleField.getX()][middleField.getY()] == null){
-                        return false;
-                    }
-                    else {
-                        int middleColor = fields[middleField.getX()][middleField.getY()].getColor();
-                        return middleColor != pawn.getColor();
-                    }
-                default:
-                    return false;
+            if(pawn.getCrown()){
+                return checkKingMove(pawn, newField);
             }
+            else return checkPawnMove(pawn, newField, distance);
         }
         return false;
     }
@@ -107,14 +93,22 @@ public class Board {
     public void movePawn(Pawn pawn, Coordinates field){
         Coordinates original = pawn.getPosition();
         fields[pawn.getPosition().getX()][pawn.getPosition().getY()] = null;
-        pawn.setPosition(field.getX(), field.getY());
-        fields[field.getX()][field.getY()] = pawn;
-        
-        if (original.getDifference(field).howManyCell() == 2){
-            removePawn(original.getMiddle(field));
+
+        if(pawn.getCrown()) {
+            Coordinates[] betweenFields = pawn.getPosition().getInBetweens(field);
+            for (Coordinates middleField : betweenFields) {
+                fields[middleField.getX()][middleField.getY()] = null;
+            }
+        }
+        else {
+            if (original.getDifference(field).howManyCell() == 2){
+                removePawn(original.getMiddle(field));
+            }
+            crownPawn(pawn, field);
         }
 
-        crownPawn(pawn, field);
+        pawn.setPosition(field.getX(), field.getY());
+        fields[field.getX()][field.getY()] = pawn;
     }
 
     public boolean isInBoard(Coordinates field){
@@ -176,5 +170,36 @@ public class Board {
                 pawn.setCrowned(true);
             }
         }
+    }
+
+    public boolean checkPawnMove(Pawn pawn, Coordinates newField, Coordinates distance) {
+        if (pawn.isCorrectDirection(distance)) {
+            switch (distance.howManyCell()) {
+                case 1:
+                    return isFieldEmpty(newField);
+                case 2:
+                    Coordinates middleField = pawn.getPosition().getMiddle(newField);
+                    if (fields[middleField.getX()][middleField.getY()] == null) {
+                        return false;
+                    } else {
+                        int middleColor = fields[middleField.getX()][middleField.getY()].getColor();
+                        return middleColor != pawn.getColor();
+                    }
+                default:
+                    return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkKingMove(Pawn pawn, Coordinates newField){
+        Coordinates[] betweenFields = pawn.getPosition().getInBetweens(newField);
+        int pawns = 0;
+        for (Coordinates field : betweenFields){
+            if(!isFieldEmpty(field)){
+                pawns++;
+            }
+        }
+        return pawns <= 1;
     }
 }
