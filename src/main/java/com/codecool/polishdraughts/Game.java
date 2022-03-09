@@ -9,20 +9,24 @@ public class Game {
     private Board board;
     private int boardSize;
 
+
     private final Scanner playerInput = new Scanner(System.in);
 
 
     public static void main(String[] args) {
         int round = 1;
-        int enemyPlayer = 2;
+        int playerNumber = 1;
+        int enemyPlayerNumber = 2;
         Game game = new Game();
         game.start();
-        while(game.checkForWinner(enemyPlayer)){
-            int playerNumber = round % 2 == 1 ? 1 : 2;
-            enemyPlayer = playerNumber == 1 ? 2 : 1;
+        while(!game.checkForWinner(enemyPlayerNumber)){
+            playerNumber = round % 2 == 1 ? 1 : 2;
+            enemyPlayerNumber = playerNumber == 1 ? 2 : 1;
             game.playRound(playerNumber);
             round++;
         }
+        game.printGameResult(playerNumber);
+
     }
 
 
@@ -44,7 +48,7 @@ public class Game {
         }else{
             System.out.println("Welcome to the secret menu kid, you cracked the code!");
             System.out.println("Which demo field would you like to choose?");
-            System.out.println("1. Simple jump over enemy\n2. Get the crown!");
+            System.out.println("1. Last enemy jump over\n2. Get the crown!\n3. Enemy can't move victory");
             int menuChoice = playerInput.nextInt();
             playerInput.nextLine();
             demoFieldInit(menuChoice);
@@ -55,7 +59,7 @@ public class Game {
 
     private void playRound(int player){
         board.printBoard();
-        System.out.printf("Player %s's round!\n",player);
+        System.out.printf("Player %s's round! (%s)\n",player, player==1?"⛂":"⛀");
         System.out.println("Please select a pawn:");
         String input = playerInput.nextLine();
         while(!checkSelectInput(player, input)){
@@ -71,14 +75,25 @@ public class Game {
         for (int row = 0; row < boardSize; row++) {
             for(int col = 0; col < boardSize; col++){
                 if(board.getColorFromCoordinate(row, col) == enemyPlayer) {
-                    return true;
+                    Pawn enemyPawn = board.getFields()[row][col];
+                    boolean enemyCanMove = false;
+                    if(board.canMove(enemyPawn) || board.canTakeEnemy(enemyPawn)){
+                        enemyCanMove = true;
+                    }
+                    if(enemyCanMove){
+                        return false;
+                    }
                 }
             }
         }
-        return false;
+        return true;
         // need to check for King vs King and no more step scenario
     }
 
+    private void printGameResult(int player){
+        board.printBoard();
+        System.out.printf("Player %s has won! (%s)\n",player, player==1?"⛂":"⛀");
+    }
 
     private void TryToMakeMove(Pawn selectedPawn){
         System.out.println("Where do you want to move this piece?");
