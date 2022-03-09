@@ -118,7 +118,7 @@ public class Board {
     }
 
     public boolean isInBoard(Coordinates field){
-        return field.getX() < boardSize && field.getY() < boardSize && 0 < field.getX() && 0 < field.getY();
+        return field.getX() < boardSize && field.getY() < boardSize && 0 <= field.getX() && 0 <= field.getY();
     }
 
     public boolean canTakeEnemy(Pawn pawn){
