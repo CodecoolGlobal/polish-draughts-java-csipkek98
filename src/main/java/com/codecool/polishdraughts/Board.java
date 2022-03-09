@@ -1,5 +1,6 @@
 package com.codecool.polishdraughts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static java.util.Objects.isNull;
@@ -234,5 +235,29 @@ public class Board {
             }
         }
         return pawns <= 1;
+    }
+
+    public int countKings(int player){
+        ArrayList<Pawn> kings = countPawns();
+        kings.removeIf(pawn -> !pawn.getCrown() || pawn.getColor() != player);
+        return kings.size();
+    }
+
+    public ArrayList<Pawn> countPawns(){
+        ArrayList<Pawn> pawns = new ArrayList<Pawn>();
+        for (Pawn[] row: fields) {
+            for (Pawn pawn: row) {
+                if (pawn != null){
+                    pawns.add(pawn);
+                }
+            }
+        }
+        return pawns;
+    }
+
+    public ArrayList<Pawn> selectEnemyPawns(int player){
+        ArrayList<Pawn> pawns = countPawns();
+        pawns.removeIf(pawn -> pawn.getCrown() || pawn.getColor() != player);
+        return pawns;
     }
 }
