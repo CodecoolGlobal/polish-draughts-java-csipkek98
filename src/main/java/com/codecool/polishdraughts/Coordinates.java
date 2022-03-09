@@ -18,8 +18,8 @@ public class Coordinates {
     }
 
     public Coordinates getDifference(Coordinates coordinates){
-        int x = this.x - coordinates.getX();
-        int y = this.y - coordinates.getY();
+        int x = this.x - coordinates.x;
+        int y = this.y - coordinates.y;
         Coordinates diff = new Coordinates(x, y);
         return diff;
     }
@@ -33,8 +33,8 @@ public class Coordinates {
     }
 
     public Coordinates getMiddle(Coordinates coordinates){
-        int x = this.x + (coordinates.getX() - this.x)/2;
-        int y = this.y + (coordinates.getY() - this.y)/2;
+        int x = this.x + (coordinates.x - this.x)/2;
+        int y = this.y + (coordinates.y - this.y)/2;
         return new Coordinates(x, y);
     }
 

@@ -32,5 +32,9 @@ public class Pawn {
         }
         return color.getColor() == 2 && !newPos.isUp();
     }
+
+    public boolean isEnemy(Pawn pawn){
+        return getColor() != pawn.getColor();
+    }
 }
 
