@@ -2,6 +2,7 @@ package com.codecool.polishdraughts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
@@ -82,7 +83,7 @@ public class Game {
     private void TryToMakeMove(Pawn selectedPawn){
         System.out.println("Where do you want to move this piece?");
         String input = playerInput.nextLine();
-        while(!checkNewPosition(input, selectedPawn)){
+        while(!checkIfQuit(input) || !checkNewPosition(input, selectedPawn)){
             System.out.println("Invalid position, choose another!");
             input = playerInput.nextLine();
         }
@@ -93,6 +94,7 @@ public class Game {
 
 
     private boolean checkSelectInput(int player, String input){
+        if (checkIfQuit(input)) System.exit(0);
         if (checkMoveInput(input)) return false;
         int[] Coord = convertInputToCoordinate(input);
         if(checkIfPlayerPawn(player, Coord)){
@@ -132,6 +134,7 @@ public class Game {
 
 
     private boolean checkNewPosition(String playerInput, Pawn pawn){
+        if (checkIfQuit(playerInput)) System.exit(0);
         if (checkMoveInput(playerInput)) return false;
         int[] movePosition = convertInputToCoordinate(playerInput);
         return board.checkMove(pawn, movePosition[0], movePosition[1]);
@@ -153,5 +156,12 @@ public class Game {
         int testBoardSize = 10;
         this.boardSize = testBoardSize;
         this.board = new Board(testBoardSize, choice);
+    }
+
+    private boolean checkIfQuit(String input){
+        if(Objects.equals(input, "quit") || Objects.equals(input, "exit")){
+            return true;
+        }
+        return false;
     }
 }

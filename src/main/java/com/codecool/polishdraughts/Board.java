@@ -35,7 +35,7 @@ public class Board {
             fields[5][5] = new Pawn(2,5,5);
         }else if(testNumber == 2){
             fields[1][3] = new Pawn(1,1,3);
-            fields[2][3] = new Pawn(2,2,3);
+            fields[2][4] = new Pawn(2,2,2);
             fields[1][1] = new Pawn(2,1,1);
         }
     }
@@ -65,10 +65,14 @@ public class Board {
                     System.out.print(".");
                 }
                 else {
-                    if (pawn.getColor() == 1){
+                    if (pawn.getColor() == 1 && !pawn.getCrown()){
                         System.out.print("⛂");
-                    }else{
+                    }else if(pawn.getColor() == 2 && !pawn.getCrown()){
                         System.out.print("⛀");
+                    }else if(pawn.getColor() == 1 && pawn.getCrown()){
+                        System.out.println("⛃");
+                    }else if(pawn.getColor() == 2 && pawn.getCrown()){
+                        System.out.println("⛁");
                     }
                 }
             }
