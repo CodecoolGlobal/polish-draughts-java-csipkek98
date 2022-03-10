@@ -1,5 +1,6 @@
 package com.codecool.polishdraughts;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -35,8 +36,19 @@ public class Game {
         clearConsole();
         System.out.println("Welcome to Polish Draughts!");
         System.out.println("Please choose a board size (10-20)");
-        int boardSize = playerInput.nextInt();
-        playerInput.nextLine();
+        int boardSize = 0;
+        boolean isValidInput = false;
+        while(!isValidInput){
+            try {
+                boardSize = playerInput.nextInt();
+                playerInput.nextLine();
+                isValidInput = true;
+            }catch (InputMismatchException e){
+                playerInput.nextLine();
+                System.out.println("Invalid input type! Please insert a number!");
+            }
+        }
+
         while (boardSize<10 || boardSize>20){
             if(boardSize == 420 || boardSize == 69){
                 break;
@@ -80,13 +92,12 @@ public class Game {
 
     private boolean checkForWinner(int enemyPlayer,int player){
         if(board.countPawns()==2){
-            return checkKingVsKingDraw(enemyPlayer, player);
+            return checkForDraw(enemyPlayer, player);
         }else {
-            return checkCantMoveAndNoEnemyLeftVictory(enemyPlayer);
+            return checkForVictory(enemyPlayer);
         }
-        // need to check for King vs King
     }
-    private boolean checkCantMoveAndNoEnemyLeftVictory(int enemyPlayer){
+    private boolean checkForVictory(int enemyPlayer){
         for (int row = 0; row < boardSize; row++) {
             for(int col = 0; col < boardSize; col++){
                 if(board.getColorFromCoordinate(row, col) == enemyPlayer) {
@@ -103,7 +114,7 @@ public class Game {
         }
         return true;
     }
-    private boolean checkKingVsKingDraw(int enemyPlayer, int player){
+    private boolean checkForDraw(int enemyPlayer, int player){
         return board.countKings(enemyPlayer) == 1 && board.countKings(player) == 1;
     }
 
@@ -146,6 +157,8 @@ public class Game {
     }
 
     private void TryToTakePiece(Pawn selectedPawn){
+        clearConsole();
+        board.printBoard();
         System.out.println("You can still take pieces!");
         Coordinates coordinates;
         String input = playerInput.nextLine();
@@ -157,7 +170,6 @@ public class Game {
         coordinates = new Coordinates(movePosition[0], movePosition[1]);
         board.movePawn(selectedPawn, coordinates);
         if(board.canTakeEnemy(board.getPawnByCoords(coordinates))){
-            board.printBoard();
             TryToTakePiece(board.getPawnByCoords(coordinates));
         }
     }
@@ -169,7 +181,7 @@ public class Game {
         int[] Coord = convertInputToCoordinate(input);
         if(checkIfPlayerPawn(player, Coord)){
             Pawn pawn = board.getFields()[Coord[0]][Coord[1]];
-            if(board.canMove(pawn)){
+            if(board.canMove(pawn) || board.canTakeEnemy(pawn)){
                 return true;
             }else{
                 System.out.println("You can't move with that pawn!");
@@ -183,6 +195,9 @@ public class Game {
 
 
     private boolean checkMoveInput(String playerInput) {
+        if(playerInput.length() == 0){
+            return true;
+        }
         char letter = Character.toLowerCase(playerInput.charAt(0));
         int number;
         try {
