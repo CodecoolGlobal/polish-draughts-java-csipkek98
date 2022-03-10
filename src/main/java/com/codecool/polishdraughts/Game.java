@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class Game {
     private Board board;
     private int boardSize;
-    private String player1Color;
-    private String player2Color;
+    private final String player1Color = Color.getPawnSymbol(1);
+    private final String player2Color = Color.getPawnSymbol(2);;
 
 
     private final Scanner playerInput = new Scanner(System.in);
@@ -59,8 +59,6 @@ public class Game {
         if(boardSize<=20){
             this.boardSize = boardSize;
             board = new Board(boardSize);
-            this.player1Color = board.getPlayer1Color();
-            this.player2Color = board.getPlayer2Color();
         }else{
             System.out.println("DEMO MENU");
             System.out.println("Which demo field would you like to choose?");
@@ -86,7 +84,7 @@ public class Game {
         int[] selectedPawnPosition = convertInputToCoordinate(input);
         Pawn pawn = board.getFields()[selectedPawnPosition[0]][selectedPawnPosition[1]];
         TryToMakeMove(pawn);
-        pawn.switchSelected();
+        pawn.unselect();
     }
 
 
@@ -133,7 +131,7 @@ public class Game {
     }
 
     private void TryToMakeMove(Pawn selectedPawn){
-        selectedPawn.switchSelected();
+        selectedPawn.select();
         clearConsole();
         board.printBoard();
         System.out.println("Where do you want to move this piece?");
@@ -244,8 +242,6 @@ public class Game {
         int testBoardSize = 10;
         this.boardSize = testBoardSize;
         this.board = new Board(testBoardSize, choice);
-        this.player1Color = board.getPlayer1Color();
-        this.player2Color = board.getPlayer2Color();
     }
 
     private boolean checkIfQuit(String input){

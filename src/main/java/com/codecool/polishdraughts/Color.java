@@ -50,7 +50,7 @@ public class Color {
 
     public Color(int color){
         this.playerColor = color;
-        symbol = Colours.getLabelByPlayer(color) + Symbols.pawn.label;
+        symbol = Colours.getLabelByPlayer(color) + Symbols.pawn.label + TerminalColors.RESET;
         isCrowned = false;
     }
 
@@ -70,6 +70,10 @@ public class Color {
 
     public int getPlayerColor() {
         return playerColor;
+    }
+
+    public static String getPawnSymbol(int player) {
+        return Colours.getLabelByPlayer(player) + Symbols.pawn.label + TerminalColors.RESET;
     }
 
     public String getSymbol() {

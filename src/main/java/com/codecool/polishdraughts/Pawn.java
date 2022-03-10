@@ -69,12 +69,8 @@ public class Pawn {
         color.changeColor("yellow");
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void switchSelected(){
-        isSelected = !isSelected;
+    public void unselect(){
+        color.resetColor();
     }
 }
 
