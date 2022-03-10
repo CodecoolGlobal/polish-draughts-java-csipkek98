@@ -176,8 +176,8 @@ public class Board {
     public boolean canTakeEnemy(Pawn pawn){
         Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(2);
         for(Coordinates field: neighbours){
-            if(isInBoard(field)) {
-                if (isFieldEmpty(field)) {
+            if (isInBoard(field) && isFieldEmpty(field)) {
+                if (pawn.getCrown() || pawn.isCorrectDirection(field)) {
                     Coordinates middle = pawn.getPosition().getMiddle(field);
                     if (pawn.isEnemy(fields[middle.getX()][middle.getY()])) {
                         return true;
@@ -191,21 +191,8 @@ public class Board {
     public boolean canMove(Pawn pawn){
         Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(1);
         for(Coordinates field: neighbours){
-            if (isInBoard(field)) {
-                if (isFieldEmpty(field)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean canMove(int[] coords){
-        Pawn pawn = fields[coords[0]][coords[1]];
-        Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(1);
-        for(Coordinates field: neighbours){
-            if (isInBoard(field)) {
-                if (isFieldEmpty(field)) {
+            if (isInBoard(field) && isFieldEmpty(field)) {
+                if (pawn.getCrown() || pawn.isCorrectDirection(field)) {
                     return true;
                 }
             }
