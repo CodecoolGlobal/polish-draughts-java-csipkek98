@@ -5,6 +5,7 @@ public class Pawn {
     private Color color;
     private Coordinates position;
     private boolean isCrowned = false;
+    private boolean isSelected = false;
 
     public Pawn(int player, int row, int col){
         color = new Color(player);
@@ -61,6 +62,14 @@ public class Pawn {
 
     public boolean isEnemy(Pawn pawn){
         return pawn != null && getColor() != pawn.getColor();
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void switchSelected(){
+        isSelected = !isSelected;
     }
 }
 

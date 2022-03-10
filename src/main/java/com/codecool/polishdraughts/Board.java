@@ -8,11 +8,21 @@ import static java.util.Objects.isNull;
 public class Board {
     private final int boardSize;
     private final Pawn[][] fields;
-    private final String PawnPlayer1 = TerminalColors.GREEN_BRIGHT+"⛂"+TerminalColors.RESET;
-    private final String KingPlayer1 = TerminalColors.GREEN_BRIGHT+"⛃"+TerminalColors.RESET;
-    private final String Pawnplayer2 = TerminalColors.BLUE_BRIGHT+"⛂"+TerminalColors.RESET;
-    private final String KingPlayer2 = TerminalColors.BLUE_BRIGHT+"⛃"+TerminalColors.RESET;
-    private final String BgColor = TerminalColors.WHITE_BACKGROUND_BRIGHT+"   "+TerminalColors.RESET;
+    private String pawnPlayer1 = TerminalColors.GREEN_BRIGHT+"⛂"+TerminalColors.RESET;
+    private final String kingPlayer1 = TerminalColors.GREEN_BRIGHT+"⛃"+TerminalColors.RESET;
+    private  String pawnPlayer2 = TerminalColors.BLUE_BRIGHT+"⛂"+TerminalColors.RESET;
+    private final String kingPlayer2 = TerminalColors.BLUE_BRIGHT+"⛃"+TerminalColors.RESET;
+    private final String selectedPawn = TerminalColors.YELLOW_BRIGHT+"⛂"+TerminalColors.RESET;
+    private final String selectedKing = TerminalColors.YELLOW_BRIGHT+"⛃"+TerminalColors.RESET;
+    private final String bgColor = TerminalColors.WHITE_BACKGROUND_BRIGHT+"   "+TerminalColors.RESET;
+
+
+    public String getPlayer1Color() {
+        return pawnPlayer1;
+    }
+    public String getPlayer2Color(){
+        return pawnPlayer2;
+    }
 
     public Board(int boardSize) {
         this.boardSize = boardSize;
@@ -33,8 +43,8 @@ public class Board {
         fields = new Pawn[boardSize][boardSize];
         switch (testNumber){
             case 1:
-                fields[6][6] = new Pawn(1,6,6);
-                fields[5][5] = new Pawn(2,5,5);
+                fields[7][6] = new Pawn(1,7,6);
+                fields[6][5] = new Pawn(2,6,5);
                 break;
             case 2:
                 fields[1][6] = new Pawn(1,1,6);
@@ -79,10 +89,10 @@ public class Board {
     public void printBoard() {
         String header = " ";
         for (int i = 1; i <=fields.length ; i++) {
-            if(i<10){
+            if(i<11){
                 header = header.concat("  "+i);
             }else{
-                header = header.concat("  "+i);
+                header = header.concat(" "+i);
             }
         }
         System.out.println(header);
@@ -98,19 +108,23 @@ public class Board {
             for (Pawn pawn : row){
                 System.out.print(" ");
                 if(pawn == null && (colCounter%2 != rowCounter%2)){
-                    System.out.print(BgColor);
+                    System.out.print(bgColor);
                 }else if(pawn == null && (colCounter%2 == rowCounter%2)){
                     System.out.print(" ");
                 }
                 else {
-                    if (pawn.getColor() == 1 && !pawn.getCrown()){
-                        System.out.print(PawnPlayer1);
+                    if(pawn.isSelected() && !pawn.getCrown()){
+                        System.out.print(selectedPawn);
+                    }else if (pawn.isSelected() && pawn.getCrown()){
+                        System.out.print(selectedKing);
+                    }else if (pawn.getColor() == 1 && !pawn.getCrown()){
+                        System.out.print(pawnPlayer1);
                     }else if(pawn.getColor() == 2 && !pawn.getCrown()){
-                        System.out.print(Pawnplayer2);
+                        System.out.print(pawnPlayer2);
                     }else if(pawn.getColor() == 1 && pawn.getCrown()){
-                        System.out.print(KingPlayer1);
+                        System.out.print(kingPlayer1);
                     }else if(pawn.getColor() == 2 && pawn.getCrown()){
-                        System.out.print(KingPlayer2);
+                        System.out.print(kingPlayer2);
                     }
                 }
                 colCounter++;
