@@ -2,7 +2,7 @@ package com.codecool.polishdraughts;
 
 
 public class Pawn {
-    private final Color color;
+    private Color color;
     private Coordinates position;
     private boolean isCrowned = false;
     private boolean isSelected = false;
@@ -13,7 +13,7 @@ public class Pawn {
     }
 
     public Pawn(int player, int row, int col, boolean isCrowned){
-        color = new Color(player);
+        color = new Color(player, isCrowned);
         position = new Coordinates(row, col);
         this.isCrowned = isCrowned;
     }
@@ -30,7 +30,7 @@ public class Pawn {
     }
 
     public String getSymbol(){
-
+        return color.getSymbol();
     }
 
     public Coordinates getPosition() {
@@ -47,6 +47,7 @@ public class Pawn {
 
     public void setCrowned(boolean crowned) {
         isCrowned = crowned;
+        color = new Color(color.getPlayerColor(), crowned);
     }
 
     public boolean getCrown(){
@@ -62,6 +63,10 @@ public class Pawn {
 
     public boolean isEnemy(Pawn pawn){
         return pawn != null && getPlayerColor() != pawn.getPlayerColor();
+    }
+
+    public void select(){
+        color.changeColor("yellow");
     }
 
     public boolean isSelected() {
