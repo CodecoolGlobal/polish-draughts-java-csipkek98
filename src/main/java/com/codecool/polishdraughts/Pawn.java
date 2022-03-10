@@ -29,10 +29,6 @@ public class Pawn {
         return color.getPlayerColor();
     }
 
-    public String getSymbol(){
-
-    }
-
     public Coordinates getPosition() {
         return position;
     }
