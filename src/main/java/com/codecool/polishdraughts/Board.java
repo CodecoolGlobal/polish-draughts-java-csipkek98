@@ -166,11 +166,9 @@ public class Board {
         Coordinates[] neighbours = pawn.getPosition().getDiagNeighbours(2);
         for(Coordinates field: neighbours){
             if (isInBoard(field) && isFieldEmpty(field)) {
-                if (pawn.getCrown() || pawn.isCorrectDirection(pawn.getPosition().getDifference(field))) {
-                    Coordinates middle = pawn.getPosition().getMiddle(field);
-                    if (pawn.isEnemy(fields[middle.getX()][middle.getY()])) {
-                        return true;
-                    }
+                Coordinates middle = pawn.getPosition().getMiddle(field);
+                if (pawn.isEnemy(fields[middle.getX()][middle.getY()])) {
+                    return true;
                 }
             }
         }
@@ -199,7 +197,7 @@ public class Board {
     }
 
     public void crownPawn(Pawn pawn, Coordinates field){
-        if(field.getX() == 0 || field.getX() == boardSize-1){
+        if((field.getX() == 0 && pawn.getPlayerColor() == 1) || (field.getX() == boardSize-1 && pawn.getPlayerColor() == 2)){
             if(!pawn.getCrown()){
                 pawn.setCrowned(true);
             }
@@ -207,7 +205,7 @@ public class Board {
     }
 
     public boolean checkPawnMove(Pawn pawn, Coordinates newField, Coordinates distance) {
-        if (pawn.isCorrectDirection(distance)) {
+        if (pawn.isCorrectDirection(distance) || isMoveTake(pawn, newField)) {
             switch (distance.howManyCell()) {
                 case 1:
                     return isFieldEmpty(newField);
