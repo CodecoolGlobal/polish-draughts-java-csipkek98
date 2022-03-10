@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Game {
     private Board board;
     private int boardSize;
+    private String player1Color;
+    private String player2Color;
 
 
     private final Scanner playerInput = new Scanner(System.in);
@@ -17,6 +19,7 @@ public class Game {
         int round = 1;
         int playerNumber = 1;
         int enemyPlayerNumber = 2;
+
         Game game = new Game();
         game.start();
         while(!game.checkForWinner(enemyPlayerNumber)){
@@ -31,6 +34,7 @@ public class Game {
 
 
     private void start(){
+        clearConsole();
         System.out.println("Welcome to Polish Draughts!");
         System.out.println("Please choose a board size (10-20)");
         int boardSize = playerInput.nextInt();
@@ -45,8 +49,10 @@ public class Game {
         if(boardSize<=20){
             this.boardSize = boardSize;
             board = new Board(boardSize);
+            this.player1Color = board.getPlayer1Color();
+            this.player2Color = board.getPlayer2Color();
         }else{
-            System.out.println("Welcome to the secret menu kid, you cracked the code!");
+            System.out.println("DEMO MENU");
             System.out.println("Which demo field would you like to choose?");
             System.out.println("1. Last enemy jump over\n2. Get the crown!\n3. Enemy can't move victory");
             int menuChoice = playerInput.nextInt();
@@ -58,8 +64,9 @@ public class Game {
 
 
     private void playRound(int player){
+        clearConsole();
         board.printBoard();
-        System.out.printf("Player %s's round! (%s)\n",player, player==1?"⛂":"⛀");
+        System.out.printf("Player %s's round! (%s)\n",player, player==1?player1Color:player2Color);
         System.out.println("Please select a pawn:");
         String input = playerInput.nextLine();
         while(!checkSelectInput(player, input)){
@@ -68,6 +75,7 @@ public class Game {
         int[] selectedPawnPosition = convertInputToCoordinate(input);
         Pawn pawn = board.getFields()[selectedPawnPosition[0]][selectedPawnPosition[1]];
         TryToMakeMove(pawn);
+        pawn.switchSelected();
     }
 
 
@@ -91,11 +99,15 @@ public class Game {
     }
 
     private void printGameResult(int player){
+        clearConsole();
         board.printBoard();
-        System.out.printf("Player %s has won! (%s)\n",player, player==1?"⛂":"⛀");
+        System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
     }
 
     private void TryToMakeMove(Pawn selectedPawn){
+        selectedPawn.switchSelected();
+        clearConsole();
+        board.printBoard();
         System.out.println("Where do you want to move this piece?");
         String input = playerInput.nextLine();
         while(!checkNewPosition(input, selectedPawn, false)){
@@ -200,6 +212,8 @@ public class Game {
         int testBoardSize = 10;
         this.boardSize = testBoardSize;
         this.board = new Board(testBoardSize, choice);
+        this.player1Color = board.getPlayer1Color();
+        this.player2Color = board.getPlayer2Color();
     }
 
     private boolean checkIfQuit(String input){
@@ -207,5 +221,10 @@ public class Game {
             return true;
         }
         return false;
+    }
+
+    public static void clearConsole(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
