@@ -5,21 +5,7 @@ import java.util.ArrayList;
 public class Board {
     private final int boardSize;
     private final Pawn[][] fields;
-    private final String pawnPlayer1 = TerminalColors.GREEN_BRIGHT+"⛂"+TerminalColors.RESET;
-    private final String kingPlayer1 = TerminalColors.GREEN_BRIGHT+"⛃"+TerminalColors.RESET;
-    private final String pawnPlayer2 = TerminalColors.BLUE_BRIGHT+"⛂"+TerminalColors.RESET;
-    private final String kingPlayer2 = TerminalColors.BLUE_BRIGHT+"⛃"+TerminalColors.RESET;
-    private final String selectedPawn = TerminalColors.YELLOW_BRIGHT+"⛂"+TerminalColors.RESET;
-    private final String selectedKing = TerminalColors.YELLOW_BRIGHT+"⛃"+TerminalColors.RESET;
     private final String bgColor = TerminalColors.WHITE_BACKGROUND_BRIGHT+"   "+TerminalColors.RESET;
-
-
-    public String getPlayer1Color() {
-        return pawnPlayer1;
-    }
-    public String getPlayer2Color(){
-        return pawnPlayer2;
-    }
 
     public Board(int boardSize) {
         this.boardSize = boardSize;
@@ -114,19 +100,7 @@ public class Board {
                     System.out.print(" ");
                 }
                 else {
-                    if(pawn.isSelected() && !pawn.getCrown()){
-                        System.out.print(selectedPawn);
-                    }else if (pawn.isSelected() && pawn.getCrown()){
-                        System.out.print(selectedKing);
-                    }else if (pawn.getPlayerColor() == 1 && !pawn.getCrown()){
-                        System.out.print(pawnPlayer1);
-                    }else if(pawn.getPlayerColor() == 2 && !pawn.getCrown()){
-                        System.out.print(pawnPlayer2);
-                    }else if(pawn.getPlayerColor() == 1 && pawn.getCrown()){
-                        System.out.print(kingPlayer1);
-                    }else if(pawn.getPlayerColor() == 2 && pawn.getCrown()){
-                        System.out.print(kingPlayer2);
-                    }
+                    System.out.print(pawn.getSymbol());
                 }
                 colCounter++;
             }
