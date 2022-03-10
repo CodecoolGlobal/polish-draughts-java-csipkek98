@@ -1,9 +1,6 @@
 package com.codecool.polishdraughts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import static java.util.Objects.isNull;
 
 public class Board {
     private final int boardSize;
@@ -121,13 +118,13 @@ public class Board {
                         System.out.print(selectedPawn);
                     }else if (pawn.isSelected() && pawn.getCrown()){
                         System.out.print(selectedKing);
-                    }else if (pawn.getColor() == 1 && !pawn.getCrown()){
+                    }else if (pawn.getPlayerColor() == 1 && !pawn.getCrown()){
                         System.out.print(pawnPlayer1);
-                    }else if(pawn.getColor() == 2 && !pawn.getCrown()){
+                    }else if(pawn.getPlayerColor() == 2 && !pawn.getCrown()){
                         System.out.print(pawnPlayer2);
-                    }else if(pawn.getColor() == 1 && pawn.getCrown()){
+                    }else if(pawn.getPlayerColor() == 1 && pawn.getCrown()){
                         System.out.print(kingPlayer1);
-                    }else if(pawn.getColor() == 2 && pawn.getCrown()){
+                    }else if(pawn.getPlayerColor() == 2 && pawn.getCrown()){
                         System.out.print(kingPlayer2);
                     }
                 }
@@ -221,7 +218,7 @@ public class Board {
     public int getColorFromCoordinate(int x, int y){
         boolean isPawn = fields[x][y] != null;
         if(isPawn){
-            return fields[x][y].getColor();
+            return fields[x][y].getPlayerColor();
         }else{
             return 0;
         }
@@ -245,8 +242,8 @@ public class Board {
                     if (fields[middleField.getX()][middleField.getY()] == null) {
                         return false;
                     } else {
-                        int middleColor = fields[middleField.getX()][middleField.getY()].getColor();
-                        return middleColor != pawn.getColor();
+                        int middleColor = fields[middleField.getX()][middleField.getY()].getPlayerColor();
+                        return middleColor != pawn.getPlayerColor();
                     }
                 default:
                     return false;
@@ -271,7 +268,7 @@ public class Board {
 
     public int countKings(int player){
         ArrayList<Pawn> kings = selectPawns();
-        kings.removeIf(pawn -> !pawn.getCrown() || pawn.getColor() != player);
+        kings.removeIf(pawn -> !pawn.getCrown() || pawn.getPlayerColor() != player);
         return kings.size();
     }
 
@@ -293,7 +290,7 @@ public class Board {
 
     public ArrayList<Pawn> selectEnemyPawns(int player){
         ArrayList<Pawn> pawns = selectPawns();
-        pawns.removeIf(pawn -> pawn.getCrown() || pawn.getColor() != player);
+        pawns.removeIf(pawn -> pawn.getCrown() || pawn.getPlayerColor() != player);
         return pawns;
     }
 

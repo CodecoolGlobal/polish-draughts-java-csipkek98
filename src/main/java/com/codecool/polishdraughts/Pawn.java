@@ -25,8 +25,12 @@ public class Pawn {
         isCrowned = pawn.isCrowned;
     }
 
-    public int getColor() {
-        return color.getColor();
+    public int getPlayerColor() {
+        return color.getPlayerColor();
+    }
+
+    public String getSymbol(){
+
     }
 
     public Coordinates getPosition() {
@@ -50,14 +54,14 @@ public class Pawn {
     }
 
     public boolean isCorrectDirection(Coordinates newPos){
-        if(color.getColor() == 1 && newPos.isUp()){
+        if(color.getPlayerColor() == 1 && newPos.isUp()){
             return true;
         }
-        return color.getColor() == 2 && !newPos.isUp();
+        return color.getPlayerColor() == 2 && !newPos.isUp();
     }
 
     public boolean isEnemy(Pawn pawn){
-        return pawn != null && getColor() != pawn.getColor();
+        return pawn != null && getPlayerColor() != pawn.getPlayerColor();
     }
 
     public boolean isSelected() {
