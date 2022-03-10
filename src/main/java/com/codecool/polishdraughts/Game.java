@@ -75,7 +75,7 @@ public class Game {
     private void playRound(int player){
         clearConsole();
         board.printBoard();
-        System.out.printf("Player %s's round! (%s)\n",player, player==1?player1Color:player2Color);
+        System.out.printf("Player %s's round! (%s )\n",player, player==1?player1Color:player2Color);
         System.out.println("Please select a pawn:");
         String input = playerInput.nextLine();
         while(!checkSelectInput(player, input)){
@@ -123,10 +123,10 @@ public class Game {
             if(board.countKings(enemyPlayer) == 1 && board.countKings(player) == 1){
                 System.out.println("It's a Draw!");
             }else{
-                System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
+                System.out.printf("Player %s has won! (%s )\n",player, player==1?player1Color:player2Color);
             }
         }else{
-            System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
+            System.out.printf("Player %s has won! (%s )\n",player, player==1?player1Color:player2Color);
         }
     }
 
