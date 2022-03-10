@@ -1,7 +1,5 @@
 package com.codecool.polishdraughts;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -22,13 +20,13 @@ public class Game {
 
         Game game = new Game();
         game.start();
-        while(!game.checkForWinner(enemyPlayerNumber)){
+        while(!game.checkForWinner(enemyPlayerNumber,playerNumber)){
             playerNumber = round % 2 == 1 ? 1 : 2;
             enemyPlayerNumber = playerNumber == 1 ? 2 : 1;
             game.playRound(playerNumber);
             round++;
         }
-        game.printGameResult(playerNumber);
+        game.printGameResult(enemyPlayerNumber,playerNumber);
 
     }
 
@@ -54,7 +52,8 @@ public class Game {
         }else{
             System.out.println("DEMO MENU");
             System.out.println("Which demo field would you like to choose?");
-            System.out.println("1. Last enemy jump over\n2. Get the crown!\n3. Enemy can't move victory");
+            System.out.println("1. Last enemy jump over\n2. Get the crown!\n" +
+                                "3. Enemy can't move victory\n4. Jump over multiple enemies!\n5. King vs King draw");
             int menuChoice = playerInput.nextInt();
             playerInput.nextLine();
             demoFieldInit(menuChoice);
@@ -79,7 +78,15 @@ public class Game {
     }
 
 
-    private boolean checkForWinner(int enemyPlayer){
+    private boolean checkForWinner(int enemyPlayer,int player){
+        if(board.countPawns()==2){
+            return checkKingVsKingDraw(enemyPlayer, player);
+        }else {
+            return checkCantMoveAndNoEnemyLeftVictory(enemyPlayer);
+        }
+        // need to check for King vs King
+    }
+    private boolean checkCantMoveAndNoEnemyLeftVictory(int enemyPlayer){
         for (int row = 0; row < boardSize; row++) {
             for(int col = 0; col < boardSize; col++){
                 if(board.getColorFromCoordinate(row, col) == enemyPlayer) {
@@ -95,13 +102,23 @@ public class Game {
             }
         }
         return true;
-        // need to check for King vs King and no more step scenario
+    }
+    private boolean checkKingVsKingDraw(int enemyPlayer, int player){
+        return board.countKings(enemyPlayer) == 1 && board.countKings(player) == 1;
     }
 
-    private void printGameResult(int player){
+    private void printGameResult(int enemyPlayer, int player){
         clearConsole();
         board.printBoard();
-        System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
+        if(board.countPawns()==2){
+            if(board.countKings(enemyPlayer) == 1 && board.countKings(player) == 1){
+                System.out.println("It's a Draw!");
+            }else{
+                System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
+            }
+        }else{
+            System.out.printf("Player %s has won! (%s)\n",player, player==1?player1Color:player2Color);
+        }
     }
 
     private void TryToMakeMove(Pawn selectedPawn){

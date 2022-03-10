@@ -1,8 +1,8 @@
 package com.codecool.polishdraughts;
 
 public class Coordinates {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Coordinates(int x, int y){
         this.x = x;
@@ -20,8 +20,7 @@ public class Coordinates {
     public Coordinates getDifference(Coordinates coordinates){
         int x = coordinates.x - this.x;
         int y = coordinates.y - this.y;
-        Coordinates diff = new Coordinates(x, y);
-        return diff;
+        return new Coordinates(x, y);
     }
 
     public boolean isSymmetric(){

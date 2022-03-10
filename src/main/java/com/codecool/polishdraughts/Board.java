@@ -8,9 +8,9 @@ import static java.util.Objects.isNull;
 public class Board {
     private final int boardSize;
     private final Pawn[][] fields;
-    private String pawnPlayer1 = TerminalColors.GREEN_BRIGHT+"⛂"+TerminalColors.RESET;
+    private final String pawnPlayer1 = TerminalColors.GREEN_BRIGHT+"⛂"+TerminalColors.RESET;
     private final String kingPlayer1 = TerminalColors.GREEN_BRIGHT+"⛃"+TerminalColors.RESET;
-    private  String pawnPlayer2 = TerminalColors.BLUE_BRIGHT+"⛂"+TerminalColors.RESET;
+    private final String pawnPlayer2 = TerminalColors.BLUE_BRIGHT+"⛂"+TerminalColors.RESET;
     private final String kingPlayer2 = TerminalColors.BLUE_BRIGHT+"⛃"+TerminalColors.RESET;
     private final String selectedPawn = TerminalColors.YELLOW_BRIGHT+"⛂"+TerminalColors.RESET;
     private final String selectedKing = TerminalColors.YELLOW_BRIGHT+"⛃"+TerminalColors.RESET;
@@ -62,6 +62,10 @@ public class Board {
                 fields[1][4] = new Pawn(2,1,4);
                 fields[3][4] = new Pawn(2,3,4);
                 fields[7][8] = new Pawn(2,7,8);
+                break;
+            case 5:
+                fields[1][0] = new Pawn(1,1,0);
+                fields[8][1] = new Pawn(2,8,1);
                 break;
         }
     }

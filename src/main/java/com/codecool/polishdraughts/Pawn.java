@@ -2,7 +2,7 @@ package com.codecool.polishdraughts;
 
 
 public class Pawn {
-    private Color color;
+    private final Color color;
     private Coordinates position;
     private boolean isCrowned = false;
     private boolean isSelected = false;
@@ -18,10 +18,6 @@ public class Pawn {
         this.isCrowned = isCrowned;
     }
 
-    public Pawn(int player, Coordinates position){
-        color = new Color(player);
-        this.position = position;
-    }
 
     public Pawn(Pawn pawn){
         color = pawn.color;
